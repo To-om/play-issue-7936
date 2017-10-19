@@ -1,18 +1,18 @@
 package controllers
 
+import akka.NotUsed
+
 import scala.concurrent.Await
 import scala.concurrent.duration.DurationInt
 import scala.util.Random
-
 import play.api.Application
 import play.api.http.Status
 import play.api.inject.bind
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.libs.ws.WSClient
-import play.api.mvc.{ ControllerComponents, PlayBodyParsers }
+import play.api.mvc.{ControllerComponents, PlayBodyParsers}
 import play.api.mvc.MultipartFormData.FilePart
 import play.api.test.Helpers.stubControllerComponents
-
 import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
 import akka.stream.scaladsl.Source
@@ -38,7 +38,7 @@ class UploadControllerSpec extends PlaySpec with GuiceOneServerPerSuite with Sta
   val wsClient: WSClient = app.injector.instanceOf[WSClient]
   val uploadURL = s"http://localhost:$port/upload"
 
-  def generateData(size: Int): Source[ByteString, _] = {
+  def generateData(size: Int): Source[ByteString, NotUsed] = {
     val buffer = Array.ofDim[Byte](size)
     Random.nextBytes(buffer)
     Source.single(ByteString(buffer))
